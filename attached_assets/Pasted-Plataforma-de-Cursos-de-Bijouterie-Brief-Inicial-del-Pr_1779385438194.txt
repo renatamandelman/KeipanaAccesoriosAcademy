@@ -1,0 +1,90 @@
+Plataforma de Cursos de Bijouterie
+Brief Inicial del Proyecto  ✿
+Materia de Programación  —  2026
+
+✦ Dirección: Lic. Alan G. Dawidowicz
+✦ Alumna: Renata Mandelman
+
+✦  ¿De qué se trata?
+El proyecto consiste en el desarrollo de una plataforma web de cursos de bijouterie, donde los usuarios podrán acceder a contenido educativo en formato de video.
+Los cursos estarán organizados por niveles y temáticas, como por ejemplo:
+Bijouterie Nivel I
+Bijouterie Nivel II
+Bijouterie Medieval
+Aprender a calcular costos
+El contenido de cada curso estará previamente cargado en la plataforma.
+
+✦  Objetivo
+Desarrollar una sitio web funcional que permita visualizar cursos de bijouterie de forma organizada y controlada.
+Objetivos específicos
+Diseñar una interfaz clara e intuitiva
+Organizar cursos por niveles o categorías
+Permitir la reproducción de videos
+Controlar el acceso a los cursos mediante validación de usuarios o códigos
+Implementar lógica básica de gestión de cursos 
+
+✦  Publico Objetivo
+Personas interesadas en aprender bijouterie de forma online, desde nivel inicial hasta avanzado, que buscan una alternativa flexible y accesible.
+✦ Modelo de acceso a los cursos
+Los cursos no serán de acceso libre. Cada curso se venderá de forma individual, con su propio precio y duración.
+Los usuarios solo podrán acceder a un curso si previamente lo adquirieron.
+El acceso se realizará mediante:
+Un usuario registrado en la plataforma
+O un código de acceso único entregado luego del pago
+Cada curso tendrá:
+Un precio específico
+Un tiempo de acceso determinado (por ejemplo: 30 días, 60 días, etc.)
+✦ Lógica de acceso al contenido
+Para ingresar a un curso, el sistema deberá validar que el usuario:
+Tiene un código válido
+Tiene el acceso activo (no vencido)
+En caso de no cumplir estas condiciones, el contenido del curso permanecerá bloqueado.
+✦ Funcionalidades principales
+Visualización de cursos disponibles
+Página individual de cada curso
+Reproducción de videos
+Validación de acceso mediante usuario o código
+Restricción de contenido para usuarios no habilitados
+✦ Funcionalidades futuras (opcionales)
+Seguimiento de progreso dentro de un curso
+Panel de administración para cargar cursos
+Sistema de favoritos o guardado
+✦ Opciones de tecnologías a utilizar
+HTML
+CSS
+JavaScript
+Typescript
+React
+Tailwind
+✦ Schema Base de datos 
+Cursos:
+Id
+Titulo
+Descripcion
+Imagen
+Duracion activa
+Precio
+Clientas:
+Id
+Nombre
+Apellido
+Mail
+Numero de contacto
+Activa o No
+Codigo/s de curso/s realizando
+
+✦ Funcionalidades principales descritas
+Catalogo de cursos: Página principal con todos los cursos disponibles mostrados en tarjetas visuales. Cada tarjeta muestra imagen, título, nivel/categoría, precio y duración del acceso. Los usuarios pueden filtrar por nivel o categoría.
+Página individual de cada curso: Vista detallada de cada curso con descripción completa, temario o contenido incluido, precio, duración del acceso y botón para adquirir o ingresar código. Si la usuaria tiene acceso activo, se habilita el contenido; si no, permanece bloqueado.
+Reproducción de videos: Interfaz de reproducción de videos organizada en lecciones o módulos dentro del curso. Solo accesible para usuarias con acceso activo y no vencido. Las lecciones se muestran en orden y se puede navegar entre ellas.
+Validación de acceso por codigo: Las usuarias pueden ingresar un código único para desbloquear un curso. El sistema valida que el código sea válido, no haya sido usado previamente y lo asocia a la cuenta de la usuaria con su fecha de vencimiento correspondiente.
+Registro e inicion de sesion: Formulario de registro con nombre, apellido, mail y número de contacto. Inicio de sesión con mail y contraseña. Permite a las usuarias tener una cuenta donde se consolidan sus accesos a cursos.
+Panel de mis cursos: Sección personal donde la usuaria puede ver todos los cursos a los que tiene o tuvo acceso, con indicación del estado (activo o vencido) y los días restantes de acceso para cada uno.
+Panel de administracion: Sección exclusiva para la administradora donde puede crear, editar y eliminar cursos (título, descripción, imagen, precio, duración de acceso, videos), gestionar clientas y generar o asignar códigos de acceso a cursos específicos.
+Referencias:
+https://www.luzzidigital.com/cursos-marketing-digital/ 
+https://sceu.frba.utn.edu.ar/e-learning/listado/Categorias[diseno-imagen-y-sonido]
+https://www.behance.net/gallery/184359459/E-Learning-Responsive-Website-Landing-Page-Design?tracking_source=search_projects|+Online+course+website&l=5
+
+Diseño de Prototipo:
+https://www.figma.com/design/dvu08POOln8uKxvlKE5xQQ/Untitled?node-id=0-1&t=Io49Nr5SXg ytduUw-1 

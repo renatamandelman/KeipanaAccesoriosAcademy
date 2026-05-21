@@ -3,12 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 const content = {
   titleLines: ["Aprende a crear", "tus propias", "creaciones"],
   description:
-    "Master the craft of creating stunning jewelry pieces with our comprehensive online courses. From beginner basics to advanced techniques.",
-  buttonLabel: "Explore Courses",
+    "Dominá el arte de crear accesorios únicos con nuestros cursos online y presenciales. Desde técnicas básicas hasta diseños avanzados.",
+  buttonLabel: "Ver Cursos",
   buttonIcon: "/figmaAssets/frame-8.svg",
   image: "/figmaAssets/img.png",
 };
@@ -33,19 +34,22 @@ export const CoursesOverviewSection = (): JSX.Element => {
           <p className="max-w-[540px] font-poppins text-base font-normal leading-[1.7] tracking-[-0.50px] text-[#bb7375] sm:text-lg lg:text-xl lg:leading-[33px]">
             {content.description}
           </p>
-          <Button
-            type="button"
-            className="h-auto rounded-full bg-[#bb7375] px-8 py-4 font-poppins text-lg font-semibold tracking-[-0.50px] text-white shadow-none hover:opacity-90 hover:bg-[#bb7375]"
-          >
-            <span>{content.buttonLabel}</span>
-            <Image
-              style={{ width: 16, height: "auto" }}
-              alt="Arrow"
-              src={content.buttonIcon}
-              width={16}
-              height={16}
-            />
-          </Button>
+          <Link href="/cursos">
+            <Button
+              type="button"
+              className="h-auto rounded-full bg-[#bb7375] px-8 py-4 font-poppins text-lg font-semibold tracking-[-0.50px] text-white shadow-none hover:opacity-90 hover:bg-[#bb7375]"
+              data-testid="btn-ver-cursos-hero"
+            >
+              <span>{content.buttonLabel}</span>
+              <Image
+                style={{ width: 16, height: "auto" }}
+                alt="Arrow"
+                src={content.buttonIcon}
+                width={16}
+                height={16}
+              />
+            </Button>
+          </Link>
         </header>
         <Card className="w-full max-w-[603px] rounded-[24px] border border-solid border-[#bb73752e] bg-[#ffffff40] shadow-none">
           <CardContent className="p-5 sm:p-6 lg:p-8">

@@ -1,0 +1,3 @@
+- [Platform architecture](platform-arch.md) — Next.js 14 App Router + Drizzle ORM + PostgreSQL; auth via jose JWT in httpOnly cookies; no Express server used
+- [DB migration approach](db-migration.md) — drizzle-kit push is interactive; use `scripts/migrate.ts` with `npx tsx` for non-interactive schema pushes
+- [Seed trigger](db-migration.md) — seed runs automatically on first GET /api/cursos call via `lib/seed.ts`; admin: admin@keipana.com / admin123; demo codes: NIVEL1-DEMO etc.

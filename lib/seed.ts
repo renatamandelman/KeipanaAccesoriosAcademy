@@ -64,6 +64,17 @@ export async function seed() {
     isAdmin: true,
   }).onConflictDoNothing();
 
+  // Seed demo client user
+  const hashDemo = await bcrypt.hash("demo1234", 10);
+  await db.insert(clientas).values({
+    nombre: "Demo",
+    apellido: "Clienta",
+    mail: "clienta@demo.com",
+    telefono: "1100000001",
+    password: hashDemo,
+    isAdmin: false,
+  }).onConflictDoNothing();
+
   // Seed access codes
   await db.insert(codigos).values([
     { cursoId: c1.id, codigo: "NIVEL1-DEMO" },

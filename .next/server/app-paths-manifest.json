@@ -1,7 +1,3 @@
 {
-  "/api/cursos/route": "app/api/cursos/route.js",
-  "/api/auth/me/route": "app/api/auth/me/route.js",
-  "/api/admin/codigos/route": "app/api/admin/codigos/route.js",
-  "/api/admin/clientas/route": "app/api/admin/clientas/route.js",
   "/admin/page": "app/admin/page.js"
 }

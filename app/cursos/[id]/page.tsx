@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth-context";
-import { ClockIcon, LockIcon, PlayCircleIcon, CheckCircleIcon, ArrowLeftIcon } from "lucide-react";
+import { ClockIcon, LockIcon, PlayCircleIcon, CheckCircleIcon, ArrowLeftIcon, MessageCircleIcon } from "lucide-react";
 import type { Curso, Leccion } from "@shared/schema";
 
 type CursoDetail = Curso & { lecciones: Leccion[] };
@@ -145,6 +145,30 @@ export default function CursoDetailPage() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
+                  <div className="rounded-xl bg-[#bb7375]/10 border border-[#bb7375]/20 p-4 text-center">
+                    <p className="text-sm font-semibold text-[#bb7375] mb-1">¿Querés adquirir este curso?</p>
+                    <p className="text-xs text-[#bb7375]/70 mb-3">
+                      Contactanos por WhatsApp para completar tu compra. Te enviaremos tu código de acceso al instante.
+                    </p>
+                    <a
+                      href={`https://wa.me/5491100000000?text=Hola!%20Me%20interesa%20comprar%20el%20curso%20*${encodeURIComponent(curso.titulo)}*%20%F0%9F%92%AB`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-testid="btn-comprar-whatsapp"
+                    >
+                      <Button className="w-full rounded-full bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold gap-2">
+                        <MessageCircleIcon className="h-5 w-5" />
+                        Comprar por WhatsApp
+                      </Button>
+                    </a>
+                  </div>
+
+                  <div className="relative flex items-center gap-3">
+                    <div className="flex-1 border-t border-[#bb7375]/20" />
+                    <span className="text-xs text-[#bb7375]/50">ya tengo mi código</span>
+                    <div className="flex-1 border-t border-[#bb7375]/20" />
+                  </div>
+
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-medium text-[#bb7375]">¿Tenés un código de acceso?</label>
                     <div className="flex gap-2">

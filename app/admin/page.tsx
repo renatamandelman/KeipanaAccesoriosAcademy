@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
   ShieldIcon, BookOpenIcon, UsersIcon, KeyIcon, PlusIcon,
-  PencilIcon, Trash2Icon, XIcon, CheckIcon, CopyIcon
+  PencilIcon, Trash2Icon, XIcon, CheckIcon, CopyIcon, LayoutIcon
 } from "lucide-react";
 import type { Curso, Clienta } from "@shared/schema";
 
@@ -153,10 +153,12 @@ export default function AdminPage() {
                     <p className="mt-1 line-clamp-1 text-xs text-[#bb7375]/60">{c.descripcion}</p>
                     <p className="mt-1 text-xs text-[#bb7375]/50">{c.duracionDias} días de acceso</p>
                     <div className="mt-3 flex gap-2">
-                      <Button size="sm" variant="outline" onClick={() => openEdit(c)}
-                        className="flex-1 rounded-full border-[#bb7375] text-[#bb7375]" data-testid={`btn-editar-${c.id}`}>
-                        <PencilIcon className="mr-1 h-3 w-3" />Editar
-                      </Button>
+                      <Link href={`/admin/cursos/${c.id}`} className="flex-1">
+                        <Button size="sm" variant="outline"
+                          className="w-full rounded-full border-[#bb7375] text-[#bb7375]" data-testid={`btn-editar-${c.id}`}>
+                          <LayoutIcon className="mr-1 h-3 w-3" />Editar curso
+                        </Button>
+                      </Link>
                       <Button size="sm" variant="outline"
                         onClick={() => { setCodeModal({ cursoId: c.id, titulo: c.titulo }); setNewCodes([]); setCodeQty(1); }}
                         className="flex-1 rounded-full border-[#bb7375] text-[#bb7375]" data-testid={`btn-codigos-${c.id}`}>

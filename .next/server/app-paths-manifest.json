@@ -1,22 +1,6 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/api/acceso/codigo/route": "app/api/acceso/codigo/route.js",
-  "/api/admin/clientas/route": "app/api/admin/clientas/route.js",
-  "/api/admin/codigos/route": "app/api/admin/codigos/route.js",
-  "/api/auth/login/route": "app/api/auth/login/route.js",
   "/api/cursos/route": "app/api/cursos/route.js",
-  "/api/auth/me/route": "app/api/auth/me/route.js",
-  "/api/auth/registro/route": "app/api/auth/registro/route.js",
-  "/api/mis-cursos/route": "app/api/mis-cursos/route.js",
-  "/api/cursos/[id]/lecciones/route": "app/api/cursos/[id]/lecciones/route.js",
-  "/auth/login/page": "app/auth/login/page.js",
-  "/auth/registro/page": "app/auth/registro/page.js",
-  "/api/auth/logout/route": "app/api/auth/logout/route.js",
-  "/api/cursos/[id]/route": "app/api/cursos/[id]/route.js",
   "/page": "app/page.js",
-  "/mis-cursos/page": "app/mis-cursos/page.js",
-  "/cursos/page": "app/cursos/page.js",
-  "/cursos/[id]/aprender/page": "app/cursos/[id]/aprender/page.js",
-  "/cursos/[id]/page": "app/cursos/[id]/page.js"
+  "/api/auth/me/route": "app/api/auth/me/route.js",
+  "/cursos/page": "app/cursos/page.js"
 }

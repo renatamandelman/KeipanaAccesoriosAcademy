@@ -12,11 +12,12 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
   ShieldIcon, BookOpenIcon, UsersIcon, KeyIcon, PlusIcon,
-  PencilIcon, Trash2Icon, XIcon, CheckIcon, CopyIcon, LayoutIcon
+  PencilIcon, Trash2Icon, XIcon, CheckIcon, CopyIcon, LayoutIcon,
+  LayoutDashboardIcon, ArrowRightIcon
 } from "lucide-react";
 import type { Curso, Clienta } from "@shared/schema";
 
-type Tab = "cursos" | "clientas" | "codigos";
+type Tab = "dashboard" | "cursos" | "clientas" | "codigos";
 
 type CodigoRow = {
   id: string; codigo: string; usado: boolean; creadoEn: string;
@@ -28,7 +29,7 @@ const emptyForm = { titulo: "", descripcion: "", imagen: "/figmaAssets/img.png",
 export default function AdminPage() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const [tab, setTab] = useState<Tab>("cursos");
+  const [tab, setTab] = useState<Tab>("dashboard");
 
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [clientas, setClientas] = useState<Omit<Clienta, "password">[]>([]);
@@ -101,9 +102,41 @@ export default function AdminPage() {
   if (authLoading) return null;
 
   const tabs = [
+    { id: "dashboard" as Tab, label: "Dashboard", Icon: LayoutDashboardIcon },
     { id: "cursos" as Tab, label: "Cursos", Icon: BookOpenIcon },
     { id: "clientas" as Tab, label: "Clientas", Icon: UsersIcon },
     { id: "codigos" as Tab, label: "Códigos", Icon: KeyIcon },
+  ];
+
+  const stats = [
+    {
+      label: "Cursos",
+      value: cursos.length,
+      icon: BookOpenIcon,
+      color: "bg-blue-100 text-blue-600",
+      action: () => setTab("cursos"),
+    },
+    {
+      label: "Clientas",
+      value: clientas.length,
+      icon: UsersIcon,
+      color: "bg-green-100 text-green-600",
+      action: () => setTab("clientas"),
+    },
+    {
+      label: "Códigos disponibles",
+      value: codigos.filter((c) => !c.usado).length,
+      icon: KeyIcon,
+      color: "bg-amber-100 text-amber-600",
+      action: () => setTab("codigos"),
+    },
+    {
+      label: "Códigos usados",
+      value: codigos.filter((c) => c.usado).length,
+      icon: CheckIcon,
+      color: "bg-purple-100 text-purple-600",
+      action: () => setTab("codigos"),
+    },
   ];
 
   return (
@@ -116,7 +149,7 @@ export default function AdminPage() {
         </div>
 
         {/* Tabs */}
-        <div className="mb-6 flex gap-2 rounded-2xl bg-white p-1.5 shadow-sm w-fit">
+        <div className="mb-8 flex gap-2 rounded-2xl bg-white p-1.5 shadow-sm w-fit">
           {tabs.map(({ id, label, Icon }) => (
             <button key={id} onClick={() => setTab(id)} data-testid={`tab-${id}`}
               className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium transition-colors ${
@@ -126,6 +159,85 @@ export default function AdminPage() {
             </button>
           ))}
         </div>
+
+        {/* DASHBOARD TAB */}
+        {tab === "dashboard" && (
+          <div>
+            {/* Stat Cards */}
+            <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+              {stats.map((s) => (
+                <button key={s.label} onClick={s.action}
+                  className="flex flex-col gap-2 rounded-2xl bg-white p-5 shadow-sm text-left transition-all hover:shadow-md hover:-translate-y-0.5">
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${s.color}`}>
+                    <s.icon className="h-5 w-5" />
+                  </div>
+                  <span className="text-2xl font-bold text-[#bb7375]">{s.value}</span>
+                  <span className="text-xs text-[#bb7375]/60">{s.label}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Quick Actions */}
+            <div className="grid gap-6 lg:grid-cols-2">
+              {/* Recent Courses */}
+              <div className="rounded-2xl bg-white p-5 shadow-sm">
+                <div className="mb-4 flex items-center justify-between">
+                  <h2 className="font-bold text-[#bb7375]">Últimos cursos</h2>
+                  <button onClick={() => setTab("cursos")} className="flex items-center gap-1 text-xs text-[#bb7375]/60 hover:text-[#bb7375]">
+                    Ver todos <ArrowRightIcon className="h-3 w-3" />
+                  </button>
+                </div>
+                {cursos.length === 0 ? (
+                  <p className="text-sm text-[#bb7375]/40">Todavía no hay cursos creados.</p>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    {cursos.map((c) => (
+                      <div key={c.id} className="flex items-center gap-3 rounded-xl bg-[#e9e8e8]/50 p-3">
+                        <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
+                          <Image src={c.imagen} alt={c.titulo} fill className="object-cover" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium text-[#bb7375]">{c.titulo}</p>
+                          <p className="text-xs text-[#bb7375]/50">{c.nivel} · {c.duracionDias} días</p>
+                        </div>
+                        <Badge className="rounded-full text-xs bg-white text-[#bb7375]">
+                          {Number(c.precio) === 0 ? "Gratis" : `$${c.precio}`}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Recent Codes */}
+              <div className="rounded-2xl bg-white p-5 shadow-sm">
+                <div className="mb-4 flex items-center justify-between">
+                  <h2 className="font-bold text-[#bb7375]">Últimos códigos</h2>
+                  <button onClick={() => setTab("codigos")} className="flex items-center gap-1 text-xs text-[#bb7375]/60 hover:text-[#bb7375]">
+                    Ver todos <ArrowRightIcon className="h-3 w-3" />
+                  </button>
+                </div>
+                {codigos.length === 0 ? (
+                  <p className="text-sm text-[#bb7375]/40">Todavía no se generaron códigos.</p>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    {codigos.slice(0, 5).map((c) => (
+                      <div key={c.id} className="flex items-center justify-between rounded-xl bg-[#e9e8e8]/50 p-3">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <code className="rounded bg-white px-2 py-0.5 text-xs font-mono text-[#bb7375]">{c.codigo}</code>
+                          <span className="truncate text-xs text-[#bb7375]/60">{c.titulo}</span>
+                        </div>
+                        <Badge className={`rounded-full text-xs shrink-0 ${c.usado ? "bg-red-100 text-red-600" : "bg-green-100 text-green-700"}`}>
+                          {c.usado ? "Usado" : "Disponible"}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* CURSOS TAB */}
         {tab === "cursos" && (

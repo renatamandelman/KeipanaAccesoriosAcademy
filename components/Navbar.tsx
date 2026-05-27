@@ -51,7 +51,7 @@ export function Navbar() {
             </Button>
             {user ? (
               <div className="flex items-center gap-2">
-                <Link href="/mis-cursos">
+                <Link href={user.isAdmin ? "/admin" : "/mis-cursos"}>
                   <Button variant="ghost" className="h-auto rounded-full border border-[#bb7375] px-4 py-2 text-sm text-[#bb7375] hover:bg-[#bb7375]/10">
                     <UserIcon className="mr-1 h-4 w-4" />
                     {user.nombre}

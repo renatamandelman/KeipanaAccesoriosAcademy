@@ -27,6 +27,7 @@ export default function CursoDetailPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(true);
+  const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetch(`/api/cursos/${id}`)
@@ -43,6 +44,17 @@ export default function CursoDetailPage() {
         if (found) { setTieneAcceso(found.activo); setDiasRestantes(found.diasRestantes); }
       });
   }, [user, id, success]);
+
+  // Cargar progreso de lecciones completadas
+  useEffect(() => {
+    if (!user) return;
+    fetch(`/api/progreso?cursoId=${id}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.completadas) setCompletedLessons(new Set(data.completadas));
+      })
+      .catch(() => {});
+  }, [user, id]);
 
   const handleCodigo = async () => {
     if (!user) { router.push("/auth/login"); return; }
@@ -124,22 +136,31 @@ export default function CursoDetailPage() {
               </div>
 
               <div className="flex flex-col gap-3">
-                {curso.lecciones.map((leccion, i) => (
-                  <div key={leccion.id} className="flex items-center gap-3 rounded-xl bg-[#e9e8e8] px-4 py-3">
-                    {tieneAcceso
-                      ? <PlayCircleIcon className="h-5 w-5 shrink-0 text-[#bb7375]" />
-                      : i === 0
-                        ? <PlayCircleIcon className="h-5 w-5 shrink-0 text-[#bb7375]" />
-                        : <LockIcon className="h-5 w-5 shrink-0 text-[#bb7375]/40" />
-                    }
-                    <div className="flex-1">
-                      <p className={`text-sm font-medium ${!tieneAcceso && i > 0 ? "text-[#bb7375]/40" : "text-[#bb7375]"}`}>
-                        {leccion.titulo}
-                      </p>
-                      {leccion.duracionMinutos ? <p className="text-xs text-[#bb7375]/50">{leccion.duracionMinutos} min</p> : null}
+                {curso.lecciones.map((leccion, i) => {
+                  const completada = completedLessons.has(leccion.id);
+                  return (
+                    <div key={leccion.id} className={`flex items-center gap-3 rounded-xl px-4 py-3 ${
+                      completada ? "bg-green-50" : "bg-[#e9e8e8]"
+                    }`}>
+                      {completada ? (
+                        <CheckCircleIcon className="h-5 w-5 shrink-0 text-green-500" />
+                      ) : tieneAcceso ? (
+                        <PlayCircleIcon className="h-5 w-5 shrink-0 text-[#bb7375]" />
+                      ) : i === 0 ? (
+                        <PlayCircleIcon className="h-5 w-5 shrink-0 text-[#bb7375]" />
+                      ) : (
+                        <LockIcon className="h-5 w-5 shrink-0 text-[#bb7375]/40" />
+                      )}
+                      <div className="flex-1">
+                        <p className={`text-sm font-medium ${completada ? "text-green-700" : !tieneAcceso && i > 0 ? "text-[#bb7375]/40" : "text-[#bb7375]"}`}>
+                          {leccion.titulo}
+                          {completada && <span className="ml-2 text-xs text-green-500">✓ Completada</span>}
+                        </p>
+                        {leccion.duracionMinutos ? <p className="text-xs text-[#bb7375]/50">{leccion.duracionMinutos} min</p> : null}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>

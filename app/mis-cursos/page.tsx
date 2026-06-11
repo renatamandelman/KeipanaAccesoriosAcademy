@@ -8,10 +8,10 @@ import { Navbar } from "@/components/Navbar";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { PlayCircleIcon, ClockIcon, KeyIcon } from "lucide-react";
+import { PlayCircleIcon, ClockIcon, KeyIcon, CheckCircleIcon, BookOpenIcon } from "lucide-react";
 import type { Curso, Acceso } from "@shared/schema";
 
-type MiCurso = { acceso: Acceso; curso: Curso; activo: boolean; diasRestantes: number };
+type MiCurso = { acceso: Acceso; curso: Curso; activo: boolean; diasRestantes: number; totalLecciones: number; leccionesCompletadas: number };
 
 export default function MisCursosPage() {
   const { user, loading: authLoading } = useAuth();
@@ -55,7 +55,7 @@ export default function MisCursosPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {misCursos.map(({ acceso, curso, activo, diasRestantes }) => (
+            {misCursos.map(({ acceso, curso, activo, diasRestantes, totalLecciones, leccionesCompletadas }) => (
               <div key={acceso.id} data-testid={`card-mi-curso-${curso.id}`}
                 className="overflow-hidden rounded-2xl bg-white shadow-sm">
                 <div className="relative h-44">
@@ -79,6 +79,17 @@ export default function MisCursosPage() {
                       : <span className="text-red-500">Acceso vencido</span>
                     }
                   </div>
+                  {totalLecciones > 0 && (
+                    <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
+                      <BookOpenIcon className="h-4 w-4" />
+                      <span>
+                        {leccionesCompletadas}/{totalLecciones} clases
+                        {leccionesCompletadas === totalLecciones && (
+                          <span className="ml-1 text-green-600 font-medium">✓ Completado</span>
+                        )}
+                      </span>
+                    </div>
+                  )}
                   <Link href={activo ? `/cursos/${curso.id}/aprender` : `/cursos/${curso.id}`}>
                     <Button className={`w-full rounded-full ${activo
                       ? "bg-[#bb7375] text-white hover:bg-[#a86466]"

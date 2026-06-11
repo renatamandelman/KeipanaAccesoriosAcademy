@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { accesos, clientas, cursos, notificaciones } from "@shared/schema";
 import { eq, and, lt, sql, gte } from "drizzle-orm";
@@ -23,11 +23,12 @@ const UMBRALES: { dias: number; tipo: string }[] = [
   { dias: 30, tipo: "inactividad-30d" },
 ];
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   // Protección básica: requiere header secreto opcional
   // const auth = req.headers.get("Authorization");
   // if (auth !== `Bearer ${process.env.CRON_SECRET}`) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
+  const debug = req.nextUrl.searchParams.get("debug");
   const now = new Date();
   const enviados: string[] = [];
 
@@ -101,6 +102,26 @@ export async function GET() {
         console.error(`❌ Error al enviar mail a ${c.mail}:`, err);
       }
     }
+  }
+
+  if (debug) {
+    // Modo debug: muestra los accesos activos para un mail específico
+    const [cl] = await db.select({ id: clientas.id }).from(clientas).where(eq(clientas.mail, debug)).limit(1);
+    if (!cl) return NextResponse.json({ error: `Clienta no encontrada: ${debug}` }, { status: 404 });
+
+    const accesosRows = await db.select({
+      accesoId: accesos.id,
+      cursoTitulo: cursos.titulo,
+      fechaInicio: accesos.fechaInicio,
+      fechaFin: accesos.fechaFin,
+      ultimoAcceso: accesos.ultimoAcceso,
+      notifs: sql`(SELECT json_agg(json_build_object('tipo', n.tipo, 'enviadoEn', n.enviado_en)) FROM ${notificaciones} n WHERE n.acceso_id = ${accesos.id})`,
+    })
+      .from(accesos)
+      .innerJoin(cursos, eq(accesos.cursoId, cursos.id))
+      .where(eq(accesos.clientaId, cl.id));
+
+    return NextResponse.json({ mail: debug, activo: accesosRows.length > 0, accesos: accesosRows });
   }
 
   return NextResponse.json({

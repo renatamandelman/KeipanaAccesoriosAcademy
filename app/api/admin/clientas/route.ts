@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { clientas } from "@shared/schema";
+import { clientas, codigos } from "@shared/schema";
 import { getSession } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 
@@ -29,6 +29,8 @@ export async function DELETE(req: NextRequest) {
     const id = req.nextUrl.searchParams.get("id");
     if (!id) return NextResponse.json({ error: "Falta el parámetro id" }, { status: 400 });
 
+    // Liberar códigos que esta clienta usó, así no viola la FK
+    await db.update(codigos).set({ usado: false, usadoPor: null, usadoEn: null }).where(eq(codigos.usadoPor, id));
     await db.delete(clientas).where(eq(clientas.id, id));
     return NextResponse.json({ ok: true });
   } catch (err) {

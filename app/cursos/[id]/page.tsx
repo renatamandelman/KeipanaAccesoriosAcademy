@@ -83,7 +83,7 @@ export default function CursoDetailPage() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-5">
           <div className="lg:col-span-3 flex flex-col gap-6">
             <div className="relative h-64 overflow-hidden rounded-2xl md:h-80">
-              <Image src={curso.imagen} alt={curso.titulo} fill className="object-cover" />
+              <Image src={curso.imagen === "/figmaAssets/img.png" ? "/figmaAssets/predeterminada.jpg" : curso.imagen} alt={curso.titulo} fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               <Badge className="absolute left-4 top-4 bg-white px-3 py-1 text-[#bb7375]">{curso.nivel}</Badge>
             </div>
@@ -95,6 +95,34 @@ export default function CursoDetailPage() {
 
             <div className="rounded-2xl bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-bold text-[#bb7375]">Contenido del curso</h2>
+
+              <div className="mb-6 flex flex-col gap-2 border-b border-[#e9e8e8] pb-4">
+                <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
+                  <CheckCircleIcon className="h-4 w-4 text-[#bb7375]" />
+                  {curso.lecciones.length} lecciones incluidas
+                </div>
+                <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
+                  <CheckCircleIcon className="h-4 w-4 text-[#bb7375]" />
+                  Acceso por {curso.duracionDias} días
+                </div>
+                <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
+                  <CheckCircleIcon className="h-4 w-4 text-[#bb7375]" />
+                  Videos en alta calidad
+                </div>
+                <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
+                  <CheckCircleIcon className="h-4 w-4 text-[#bb7375]" />
+                  Guías en PDF
+                </div>
+                <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
+                  <CheckCircleIcon className="h-4 w-4 text-[#bb7375]" />
+                  Presencial, Online sincrónico o asincrónico
+                </div>
+                <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
+                  <CheckCircleIcon className="h-4 w-4 text-[#bb7375]" />
+                  Opcional: te enviamos los materiales
+                </div>
+              </div>
+
               <div className="flex flex-col gap-3">
                 {curso.lecciones.map((leccion, i) => (
                   <div key={leccion.id} className="flex items-center gap-3 rounded-xl bg-[#e9e8e8] px-4 py-3">
@@ -137,7 +165,7 @@ export default function CursoDetailPage() {
                     <span className="text-sm font-medium">Acceso activo · {diasRestantes} días restantes</span>
                   </div>
                   <Link href={`/cursos/${curso.id}/aprender`}>
-                    <Button className="w-full rounded-full bg-[#bb7375] py-3 text-white hover:bg-[#a86466]">
+                    <Button className="w-full rounded-full bg-[#bb7375] py-3 text-white hover:bg-[#bb7375/90]">
                       <PlayCircleIcon className="mr-2 h-5 w-5" />
                       Comenzar Curso
                     </Button>
@@ -151,7 +179,7 @@ export default function CursoDetailPage() {
                       Contactanos por WhatsApp para completar tu compra. Te enviaremos tu código de acceso al instante.
                     </p>
                     <a
-                      href={`https://wa.me/5491100000000?text=Hola!%20Me%20interesa%20comprar%20el%20curso%20*${encodeURIComponent(curso.titulo)}*%20%F0%9F%92%AB`}
+                      href={`https://wa.me/5491172483852?text=Hola!%20Me%20interesa%20comprar%20el%20curso%20*${encodeURIComponent(curso.titulo)}*%20%F0%9F%92%AB`}
                       target="_blank"
                       rel="noopener noreferrer"
                       data-testid="btn-comprar-whatsapp"
@@ -183,7 +211,7 @@ export default function CursoDetailPage() {
                       <Button
                         onClick={handleCodigo}
                         disabled={loadingCodigo || !codigo}
-                        className="rounded-full bg-[#bb7375] px-4 text-white hover:bg-[#a86466]"
+                        className="rounded-full bg-[#bb7375] px-4 text-white hover:bg-[#bb7375/90]"
                         data-testid="btn-activar-codigo"
                       >
                         {loadingCodigo ? "..." : "Activar"}
@@ -214,20 +242,7 @@ export default function CursoDetailPage() {
                 </div>
               )}
 
-              <div className="mt-6 flex flex-col gap-2 border-t border-[#e9e8e8] pt-4">
-                <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
-                  <CheckCircleIcon className="h-4 w-4 text-[#bb7375]" />
-                  {curso.lecciones.length} lecciones incluidas
-                </div>
-                <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
-                  <CheckCircleIcon className="h-4 w-4 text-[#bb7375]" />
-                  Acceso por {curso.duracionDias} días
-                </div>
-                <div className="flex items-center gap-2 text-sm text-[#bb7375]/70">
-                  <CheckCircleIcon className="h-4 w-4 text-[#bb7375]" />
-                  Videos en alta calidad
-                </div>
-              </div>
+            
             </div>
           </div>
         </div>

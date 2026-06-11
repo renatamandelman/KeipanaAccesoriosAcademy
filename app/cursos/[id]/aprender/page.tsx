@@ -55,7 +55,7 @@ export default function AprenderPage() {
         <LockIcon className="h-16 w-16 text-[#bb7375]/40" />
         <h2 className="text-2xl font-bold text-[#bb7375]">Sin acceso</h2>
         <p className="text-[#bb7375]/70">No tenés acceso activo a este curso.</p>
-        <Link href={`/cursos/${id}`} className="mt-2 rounded-full bg-[#bb7375] px-6 py-2 text-white hover:bg-[#a86466]">
+        <Link href={`/cursos/${id}`} className="mt-2 rounded-full bg-[#bb7375] px-6 py-2 text-white hover:bg-[#bb7375/90]">
           Activar código de acceso
         </Link>
       </div>
@@ -123,7 +123,7 @@ export default function AprenderPage() {
                   <button
                     disabled={current === lecciones.length - 1}
                     onClick={() => { toggleCompleted(leccion.id); setCurrent(current + 1); }}
-                    className="rounded-full bg-[#bb7375] px-5 py-2 text-sm text-white disabled:opacity-30 hover:bg-[#a86466]"
+                    className="rounded-full bg-[#bb7375] px-5 py-2 text-sm text-white disabled:opacity-30 hover:bg-[#bb7375/90]"
                     data-testid="btn-siguiente"
                   >Siguiente →</button>
                 </div>

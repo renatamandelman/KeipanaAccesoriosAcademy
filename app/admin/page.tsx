@@ -194,10 +194,7 @@ export default function AdminPage() {
                     {cursos.map((c) => (
                       <div key={c.id} className="flex items-center gap-3 rounded-xl bg-[#e9e8e8]/50 p-3">
                         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
-                          <Image src={c.imagen} alt={c.titulo} fill className="object-cover" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-medium text-[#bb7375]">{c.titulo}</p>
+                          <Image src={c.imagen === "/figmaAssets/img.png" ? "/figmaAssets/predeterminada.jpg" : c.imagen} alt={c.titulo} fill className="object-cover" />
                           <p className="text-xs text-[#bb7375]/50">{c.nivel} · {c.duracionDias} días</p>
                         </div>
                         <Badge className="rounded-full text-xs bg-white text-[#bb7375]">
@@ -244,27 +241,26 @@ export default function AdminPage() {
           <div>
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm text-[#bb7375]/70">{cursos.length} cursos disponibles</p>
-              <Button onClick={openNew} className="rounded-full bg-[#bb7375] text-white hover:bg-[#a86466]" data-testid="btn-nuevo-curso">
+              <Button onClick={openNew} className="rounded-full bg-[#bb7375] text-white hover:bg-[#bb7375/90]" data-testid="btn-nuevo-curso">
                 <PlusIcon className="mr-2 h-4 w-4" />Nuevo Curso
               </Button>
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
               {cursos.map((c) => (
-                <div key={c.id} className="overflow-hidden rounded-2xl bg-white shadow-sm" data-testid={`admin-curso-${c.id}`}>
-                  <div className="relative h-36">
-                    <Image src={c.imagen} alt={c.titulo} fill className="object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                <div key={c.id} className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm" data-testid={`admin-curso-${c.id}`}>
+                  <div className="relative h-36 shrink-0">
+                    <Image src={c.imagen === "/figmaAssets/img.png" ? "/figmaAssets/predeterminada.jpg" : c.imagen} alt={c.titulo} fill className="object-cover" />
                     <Badge className="absolute left-3 top-3 rounded-full bg-white px-2 py-0.5 text-xs text-[#bb7375]">{c.nivel}</Badge>
                     <span className="absolute right-3 top-3 text-sm font-bold text-white">
                       {Number(c.precio) === 0 ? "Gratis" : `$${c.precio}`}
                     </span>
                   </div>
-                  <div className="p-4">
+                  <div className="flex flex-1 flex-col p-4">
                     <h3 className="font-bold text-[#bb7375]">{c.titulo}</h3>
                     <p className="mt-1 line-clamp-1 text-xs text-[#bb7375]/60">{c.descripcion}</p>
                     <p className="mt-1 text-xs text-[#bb7375]/50">{c.duracionDias} días de acceso</p>
-                    <div className="mt-3 flex gap-2">
+                    <div className="mt-auto flex gap-2 pt-3">
                       <Link href={`/admin/cursos/${c.id}`} className="flex-1">
                         <Button size="sm" variant="outline"
                           className="w-full rounded-full border-[#bb7375] text-[#bb7375]" data-testid={`btn-editar-${c.id}`}>

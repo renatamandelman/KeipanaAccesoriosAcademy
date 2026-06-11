@@ -10,7 +10,7 @@ export async function seed() {
   const [c1] = await db.insert(cursos).values({
     titulo: "Bijouterie Nivel I",
     descripcion: "Aprende desde cero las técnicas fundamentales de la bijouterie. Curso ideal para principiantes que quieren crear sus propios accesorios artesanales con materiales básicos y herramientas simples.",
-    imagen: "/figmaAssets/img-1.png",
+    imagen: "/figmaAssets/cursoInicial.jpeg",
     duracionDias: 180,
     precio: "0",
     nivel: "Nivel I",
@@ -19,7 +19,7 @@ export async function seed() {
   const [c2] = await db.insert(cursos).values({
     titulo: "Bijouterie Nivel II",
     descripcion: "Profundiza tus habilidades con técnicas avanzadas de bijouterie. Para quienes ya conocen los fundamentos y quieren llevar sus creaciones al siguiente nivel.",
-    imagen: "/figmaAssets/img-2.png",
+    imagen: "/figmaAssets/cursoAvanzado.jpeg",
     duracionDias: 365,
     precio: "149",
     nivel: "Nivel II",
@@ -28,7 +28,7 @@ export async function seed() {
   const [c3] = await db.insert(cursos).values({
     titulo: "Bijouterie Medieval",
     descripcion: "Descubrí el arte del tejido medieval aplicado a la bijouterie. Técnicas históricas adaptadas para crear piezas únicas con una estética especial.",
-    imagen: "/figmaAssets/img-3.png",
+    imagen: "/figmaAssets/Medieval.jpeg",
     duracionDias: 270,
     precio: "199",
     nivel: "Intermedio",
@@ -37,7 +37,7 @@ export async function seed() {
   const [c4] = await db.insert(cursos).values({
     titulo: "Cálculo de Costos",
     descripcion: "Aprendé a calcular correctamente los costos de tus creaciones para poder venderlas de manera rentable. Incluye hoja de cálculo y ejemplos prácticos.",
-    imagen: "/figmaAssets/img.png",
+    imagen: "/figmaAssets/predeterminada.jpg",
     duracionDias: 90,
     precio: "79",
     nivel: "Principiante",

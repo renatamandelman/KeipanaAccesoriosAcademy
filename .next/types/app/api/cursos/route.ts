@@ -1,4 +1,4 @@
-// File: /home/runner/workspace/app/api/cursos/route.ts
+// File: /Users/valeremandel/Desktop/KeipanaAccesoriosAcademy/app/api/cursos/route.ts
 import * as entry from '../../../../../app/api/cursos/route.js'
 import type { NextRequest } from 'next/server.js'
 

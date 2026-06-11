@@ -38,7 +38,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link href="/">
-            <Image src="/figmaAssets/asset-4-1.png" alt="Keipana" width={86} height={58} className="mx-auto h-14 w-auto" />
+            <Image src="/figmaAssets/logo.png" alt="Keipana" width={86} height={58} className="mx-auto h-14 w-auto" />
           </Link>
           <h1 className="mt-4 text-2xl font-bold text-[#bb7375]">Iniciar sesión</h1>
           <p className="mt-1 text-sm text-[#bb7375]/70">Accedé a tus cursos de bijouterie</p>
@@ -69,7 +69,7 @@ export default function LoginPage() {
             {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
             <Button type="submit" disabled={loading} data-testid="btn-login"
-              className="h-11 w-full rounded-full bg-[#bb7375] text-white hover:bg-[#a86466]">
+              className="h-11 w-full rounded-full bg-[#bb7375] text-white hover:bg-[#bb7375/90]">
               {loading ? "Ingresando..." : "Ingresar"}
             </Button>
           </div>

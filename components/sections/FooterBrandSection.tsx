@@ -3,25 +3,25 @@ import Image from "next/image";
 
 const steps = [
   {
-    title: "1. Elige y compra",
+    title: "1. Elegí y comprá",
     description:
-      "Elige el curso que mas te guste de nuestro catalogo y seras redireccionado a whatsapp para realizar la compra",
+      "Elegí el curso que más te guste de nuestro catálogo y serás redirigido a WhatsApp para realizar la compra",
     iconSrc: "/figmaAssets/frame-7.svg",
-    iconAlt: "Elige y compra",
+    iconAlt: "Elegí y comprá",
   },
   {
-    title: "2. Codigo recivido",
+    title: "2. Código recibido",
     description:
-      "Una vez comprado, recibes un codigo de acceso unico para desbloquear el contenido del curso",
+      "Una vez comprado, recibís un código de acceso único. Creá tu cuenta o iniciá sesión para canjearlo y desbloquear el contenido del curso.",
     iconSrc: "/figmaAssets/frame-2.svg",
-    iconAlt: "Codigo recivido",
+    iconAlt: "Código recibido",
   },
   {
-    title: "3. Start Learning",
+    title: "3. Empezá a aprender",
     description:
-      "Ingresa tu codigo y empeza a crear accesorios hermosos hechos por vos.",
+      "Ingresá tu código y empezá a crear accesorios únicos hechos por vos.",
     iconSrc: "/figmaAssets/frame-1.svg",
-    iconAlt: "Start Learning",
+    iconAlt: "Empezá a aprender",
   },
 ];
 
@@ -31,7 +31,7 @@ export const FooterBrandSection = (): JSX.Element => {
       <div className="mx-auto flex w-full max-w-screen-xl flex-col items-start gap-12 px-6 md:gap-16 md:px-8">
         <header className="flex w-full flex-col items-center gap-4 text-center">
           <h2 className="font-poppins text-3xl font-bold leading-9 tracking-[-0.50px] text-[#bb7375] md:text-4xl md:leading-10">
-            Como funciona?
+            ¿Cómo funciona?
           </h2>
           <p className="font-poppins text-base font-normal leading-6 tracking-[-0.50px] text-[#bb7375] md:text-lg md:leading-7">
             Simples pasos para empezar a crear tus propios accesorios

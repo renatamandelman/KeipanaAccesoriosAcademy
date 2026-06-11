@@ -25,7 +25,7 @@ export const cursos = pgTable("cursos", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   titulo: text("titulo").notNull(),
   descripcion: text("descripcion").notNull(),
-  imagen: text("imagen").notNull().default("/figmaAssets/img.png"),
+  imagen: text("imagen").notNull().default("/figmaAssets/predeterminada.jpg"),
   duracionDias: integer("duracion_dias").notNull().default(180),
   precio: decimal("precio", { precision: 10, scale: 2 }).notNull().default("0"),
   nivel: text("nivel").notNull().default("Principiante"),

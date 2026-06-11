@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 
-const links = ["Cursos", "Sobre mi", "Contacto", "Home"];
+const links = ["Cursos", "Sobre mí", "Contacto", "Inicio"];
 const helpLinks = ["Contacto"];
 
 export const FooterLinksSection = (): JSX.Element => {
@@ -11,25 +11,19 @@ export const FooterLinksSection = (): JSX.Element => {
         <div className="grid w-full grid-cols-1 gap-10 md:grid-cols-[minmax(0,1.6fr)_minmax(220px,280px)_minmax(180px,1fr)] md:gap-8">
           <section className="flex min-w-0 flex-col items-start gap-6">
             <Image
-              style={{ width: "100%", maxWidth: 280, height: "auto" }}
+              style={{ width: "100%", maxWidth: 100, height: "auto" }}
               alt="Keipana Accesorios"
-              src="/figmaAssets/frame-4.svg"
-              width={280}
-              height={80}
+              src="/figmaAssets/logo.png"
+              width={80}
+              height={20}
             />
             <p className="font-poppins text-base font-normal leading-6 tracking-[-0.50px] text-white">
-              Master the art of jewelry making with our comprehensive online
-              courses.
+              Dominá el arte de crear accesorios únicos con nuestros cursos
+              online.
               <br />
-              Create beautiful pieces and turn your passion into skill.
+              Crea piezas hermosas y convertí tu pasión en habilidad.
             </p>
-            <Image
-              className="h-auto w-full max-w-[180px]"
-              alt="Decorative footer graphic"
-              src="/figmaAssets/frame.svg"
-              width={180}
-              height={35}
-            />
+           
           </section>
           <Card className="border-0 bg-transparent p-0 shadow-none">
             <CardContent className="flex flex-col items-start gap-4 p-0">

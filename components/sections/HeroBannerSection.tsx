@@ -8,14 +8,14 @@ const navItems = ["Home", "Cursos", "Sobre Mi", "Contacto"];
 
 export const HeroBannerSection = (): JSX.Element => {
   return (
-    <header className="relative z-[4] w-full border-b border-[#bb7375] bg-[#ffffffe6] backdrop-blur-[6px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(6px)_brightness(100%)]">
+    <header className="relative z-[4] w-full border-b border-[#bb7375] bg-[#ECDAD8]/90 backdrop-blur-[6px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(6px)_brightness(100%)]">
       <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex min-h-[82px] w-full items-center justify-between gap-4 py-2.5">
           <a href="#" className="shrink-0">
             <Image
               className="h-[58px] w-[85.66px] object-cover"
               alt="Keipana Accesorios"
-              src="/figmaAssets/asset-4-1.png"
+              src="/figmaAssets/logo.png"
               width={86}
               height={58}
             />
@@ -46,7 +46,7 @@ export const HeroBannerSection = (): JSX.Element => {
             </Button>
             <Button
               type="button"
-              className="h-auto rounded-full bg-[#bb7375] px-4 py-2 font-poppins text-base font-normal leading-6 tracking-[-0.50px] text-white hover:bg-[#a86466]"
+              className="h-auto rounded-full bg-[#bb7375] px-4 py-2 font-poppins text-base font-normal leading-6 tracking-[-0.50px] text-white hover:bg-[#bb7375/90]"
             >
               Login
             </Button>

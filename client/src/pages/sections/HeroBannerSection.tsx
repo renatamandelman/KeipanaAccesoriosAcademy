@@ -12,7 +12,7 @@ export const HeroBannerSection = (): JSX.Element => {
             <img
               className="h-[58px] w-[85.66px] object-cover"
               alt="Keipara"
-              src="/figmaAssets/asset-4-1.png"
+              src="/figmaAssets/logo.png"
             />
           </a>
           <nav aria-label="Main navigation" className="hidden md:flex">

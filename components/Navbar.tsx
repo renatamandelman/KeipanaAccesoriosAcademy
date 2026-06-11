@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 
 const navItems = [
-  { label: "Home", href: "/" },
+  { label: "Inicio", href: "/" },
   { label: "Cursos", href: "/cursos" },
-  { label: "Como funciona", href: "/#como-funciona" },
+  { label: "Cómo funciona", href: "/#como-funciona" },
   { label: "Contacto", href: "/#contacto" },
 ];
 
@@ -26,11 +26,11 @@ export function Navbar() {
   };
 
   return (
-    <header className="relative z-[4] w-full border-b border-[#bb7375] bg-[#ffffffe6] backdrop-blur-[6px]">
+    <header className="relative z-[4] w-full border-b border-[#bb7375] bg-white/90 backdrop-blur-[6px]">
       <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex min-h-[82px] w-full items-center justify-between gap-4 py-2.5">
           <Link href="/" className="shrink-0">
-            <Image src="/figmaAssets/asset-4-1.png" alt="Keipana Accesorios" width={86} height={58} className="h-[58px] w-auto object-cover" />
+            <Image src="/figmaAssets/logo.png" alt="Keipana Accesorios" width={86} height={58} className="h-[58px] w-auto object-cover" />
           </Link>
 
           <nav className="hidden md:flex">
@@ -70,7 +70,7 @@ export function Navbar() {
               </div>
             ) : (
               <Link href="/auth/login">
-                <Button className="h-auto rounded-full bg-[#bb7375] px-4 py-2 text-base text-white hover:bg-[#a86466]">
+                <Button className="h-auto rounded-full bg-[#bb7375] px-4 py-2 text-base text-white hover:bg-[#bb7375/90]">
                   Login
                 </Button>
               </Link>

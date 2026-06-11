@@ -202,7 +202,7 @@ export default function AdminCursoPage() {
                 </div>
               </div>
               <Button onClick={saveCurso} disabled={saving}
-                className="mt-2 w-full rounded-full bg-[#bb7375] text-white hover:bg-[#a86466]" data-testid="btn-guardar-curso">
+                className="mt-2 w-full rounded-full bg-[#bb7375] text-white hover:bg-[#bb7375/90]" data-testid="btn-guardar-curso">
                 {saving ? "Guardando..." : savedMsg ? (
                   <><CheckIcon className="mr-2 h-4 w-4" />Guardado</>
                 ) : (
@@ -220,7 +220,7 @@ export default function AdminCursoPage() {
                   Lecciones <span className="text-sm font-normal text-[#bb7375]/50">({lecciones.length})</span>
                 </h2>
                 <Button onClick={openNewLeccion} size="sm"
-                  className="rounded-full bg-[#bb7375] text-white hover:bg-[#a86466]" data-testid="btn-nueva-leccion">
+                  className="rounded-full bg-[#bb7375] text-white hover:bg-[#bb7375/90]" data-testid="btn-nueva-leccion">
                   <PlusIcon className="mr-1 h-4 w-4" />Nueva lección
                 </Button>
               </div>

@@ -30,7 +30,7 @@ export default function LoginPage() {
     const data = await res.json();
     if (!res.ok) { setError(data.error || "Error al iniciar sesión"); setLoading(false); return; }
     await refresh();
-    router.push("/mis-cursos");
+    router.push(data.clienta?.isAdmin ? "/admin" : "/mis-cursos");
   };
 
   return (

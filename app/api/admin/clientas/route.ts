@@ -22,12 +22,18 @@ export async function GET() {
 }
 
 export async function DELETE(req: NextRequest) {
-  const session = await getSession();
-  if (!session?.isAdmin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
+  try {
+    const session = await getSession();
+    if (!session?.isAdmin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
 
-  const id = req.nextUrl.searchParams.get("id");
-  if (!id) return NextResponse.json({ error: "Falta el parámetro id" }, { status: 400 });
+    const id = req.nextUrl.searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "Falta el parámetro id" }, { status: 400 });
 
-  await db.delete(clientas).where(eq(clientas.id, id));
-  return NextResponse.json({ ok: true });
+    await db.delete(clientas).where(eq(clientas.id, id));
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("Error en DELETE clientas:", err);
+    const message = err instanceof Error ? err.message : "Error desconocido";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

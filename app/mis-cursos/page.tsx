@@ -95,7 +95,9 @@ export default function MisCursosPage() {
                       ? "bg-[#bb7375] text-white hover:bg-[#a86466]"
                       : "border border-[#bb7375] bg-white text-[#bb7375] hover:bg-[#bb7375]/10"
                     }`} data-testid={`btn-ir-curso-${curso.id}`}>
-                      {activo ? <><PlayCircleIcon className="mr-2 h-4 w-4" />Continuar</> : "Ver detalles"}
+                      {activo
+                        ? <>{leccionesCompletadas}/{totalLecciones} clases</>
+                        : "Ver detalles"}
                     </Button>
                   </Link>
                 </div>

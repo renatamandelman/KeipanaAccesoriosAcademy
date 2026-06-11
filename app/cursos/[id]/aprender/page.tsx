@@ -97,8 +97,8 @@ export default function AprenderPage() {
       <Navbar />
       <div className="mx-auto max-w-screen-xl px-4 py-6 lg:px-8">
         <div className="mb-4 flex items-center justify-between">
-          <Link href={`/cursos/${id}`} className="inline-flex items-center gap-2 text-sm text-[#bb7375] hover:opacity-80">
-            <ArrowLeftIcon className="h-4 w-4" /> Volver al curso
+          <Link href="/mis-cursos" className="inline-flex items-center gap-2 text-sm text-[#bb7375] hover:opacity-80">
+            <ArrowLeftIcon className="h-4 w-4" /> Volver a mis cursos
           </Link>
           <div className="flex items-center gap-2 text-sm text-[#bb7375]">
             <span>{completed.size}/{lecciones.length} completadas</span>

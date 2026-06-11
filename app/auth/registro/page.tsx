@@ -30,6 +30,10 @@ export default function RegistroPage() {
     });
     const data = await res.json();
     if (!res.ok) { setError(data.error || "Error al registrarse"); setLoading(false); return; }
+    // Mostrar si el mail de bienvenida se envió o no
+    if (data.email && !data.email.ok) {
+      console.warn("Mail de bienvenida no enviado:", data.email.error);
+    }
     await refresh();
     router.push("/mis-cursos");
   };

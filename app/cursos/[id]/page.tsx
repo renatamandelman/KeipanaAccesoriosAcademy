@@ -66,7 +66,13 @@ export default function CursoDetailPage() {
     });
     const data = await res.json();
     if (!res.ok) { setError(data.error || "Error al activar el código"); }
-    else { setSuccess("¡Código activado correctamente! Ya podés acceder al curso."); setCodigo(""); }
+    else { 
+      setSuccess("¡Código activado correctamente! Ya podés acceder al curso.");
+      setCodigo("");
+      if (data.email && !data.email.ok) {
+        console.warn("Mail de nuevo curso no enviado:", data.email.error);
+      }
+    }
     setLoadingCodigo(false);
   };
 

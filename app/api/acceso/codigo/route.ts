@@ -35,19 +35,29 @@ export async function POST(req: NextRequest) {
     fechaFin,
   }).returning();
 
-  // Mail de nuevo curso (fire-and-forget, no bloquea la activación)
-  const [clienta] = await db.select({ nombre: clientas.nombre }).from(clientas).where(eq(clientas.id, session.id)).limit(1);
-  if (clienta) {
-    sendEmail({
-      to: session.mail,
-      subject: `🎉 Acceso activado: ${curso.titulo}`,
-      html: buildNuevoCursoHtml({
-        nombre: clienta.nombre,
-        cursoTitulo: curso.titulo,
-        duracionDias: curso.duracionDias,
-      }),
-    }).catch((err) => console.error("Error al enviar notificación de nuevo curso:", err));
+  // Mail de nuevo curso (no bloquea la activación, pero reportamos el error)
+  let emailError: string | null = null;
+  try {
+    const [clienta] = await db.select({ nombre: clientas.nombre }).from(clientas).where(eq(clientas.id, session.id)).limit(1);
+    if (clienta) {
+      await sendEmail({
+        to: session.mail,
+        subject: `🎉 Acceso activado: ${curso.titulo}`,
+        html: buildNuevoCursoHtml({
+          nombre: clienta.nombre,
+          cursoTitulo: curso.titulo,
+          duracionDias: curso.duracionDias,
+        }),
+      });
+    }
+  } catch (err: unknown) {
+    emailError = err instanceof Error ? err.message : "Error desconocido";
+    console.error("Error al enviar notificación de nuevo curso:", err);
   }
 
-  return NextResponse.json({ acceso, curso });
+  return NextResponse.json({
+    acceso,
+    curso,
+    email: emailError ? { ok: false, error: emailError } : { ok: true },
+  });
 }

@@ -22,15 +22,24 @@ export async function POST(req: NextRequest) {
   const hash = await bcrypt.hash(password, 10);
   const [clienta] = await db.insert(clientas).values({ nombre, apellido, mail, telefono, password: hash }).returning();
 
-  // Mail de bienvenida (fire-and-forget, no bloquea el registro)
-  sendEmail({
-    to: clienta.mail,
-    subject: "✨ Bienvenida a Keipana Accesorios Academy",
-    html: buildBienvenidaHtml({ nombre: clienta.nombre }),
-  }).catch((err) => console.error("Error al enviar bienvenida:", err));
+  // Mail de bienvenida (no bloquea el registro, pero reportamos el error)
+  let emailError: string | null = null;
+  try {
+    await sendEmail({
+      to: clienta.mail,
+      subject: "✨ Bienvenida a Keipana Accesorios Academy",
+      html: buildBienvenidaHtml({ nombre: clienta.nombre }),
+    });
+  } catch (err: unknown) {
+    emailError = err instanceof Error ? err.message : "Error desconocido";
+    console.error("Error al enviar bienvenida:", err);
+  }
 
   const token = await signToken(clientaToPayload(clienta));
-  const res = NextResponse.json({ clienta: { id: clienta.id, nombre: clienta.nombre, mail: clienta.mail, isAdmin: clienta.isAdmin } });
+  const res = NextResponse.json({
+    clienta: { id: clienta.id, nombre: clienta.nombre, mail: clienta.mail, isAdmin: clienta.isAdmin },
+    email: emailError ? { ok: false, error: emailError } : { ok: true },
+  });
   res.cookies.set("session", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 7 });
   return res;
 }

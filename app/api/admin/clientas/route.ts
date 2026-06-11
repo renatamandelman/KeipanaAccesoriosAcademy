@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { clientas, accesos, cursos } from "@shared/schema";
+import { clientas } from "@shared/schema";
 import { getSession } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 
@@ -19,4 +19,15 @@ export async function GET() {
   }).from(clientas);
 
   return NextResponse.json(all);
+}
+
+export async function DELETE(req: NextRequest) {
+  const session = await getSession();
+  if (!session?.isAdmin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
+
+  const id = req.nextUrl.searchParams.get("id");
+  if (!id) return NextResponse.json({ error: "Falta el parámetro id" }, { status: 400 });
+
+  await db.delete(clientas).where(eq(clientas.id, id));
+  return NextResponse.json({ ok: true });
 }

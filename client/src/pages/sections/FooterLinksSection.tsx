@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-const links = ["Cursos", "Sobre mi", "Contacto", "Home"];
+const links = ["Cursos", "Contacto", "Home"];
 const helpLinks = ["Contacto"];
 
 export const FooterLinksSection = (): JSX.Element => {

@@ -4,7 +4,7 @@ import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-const navItems = ["Home", "Cursos", "Sobre Mi", "Contacto"];
+const navItems = ["Home", "Cursos",  "Contacto"];
 
 export const HeroBannerSection = (): JSX.Element => {
   return (

@@ -85,10 +85,11 @@ export default function AdminPage() {
 
   const deleteClienta = async (id: string) => {
     if (!confirm("¿Eliminar esta clienta? También se borrarán sus accesos y progreso.")) return;
-    const res = await fetch(`/api/admin/clientas/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/admin/clientas?id=${id}`, { method: "DELETE" });
     if (!res.ok) {
-      const data = await res.json();
-      alert(`Error al eliminar: ${data.error || "Desconocido"}`);
+      let msg = "Error desconocido";
+      try { const data = await res.json(); msg = data.error || msg; } catch { msg = `HTTP ${res.status}`; }
+      alert(`Error al eliminar: ${msg}`);
       return;
     }
     setClientas((prev) => prev.filter((cl) => cl.id !== id));

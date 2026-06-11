@@ -83,6 +83,12 @@ export default function AdminPage() {
     setCursos((prev) => prev.filter((c) => c.id !== id));
   };
 
+  const deleteClienta = async (id: string) => {
+    if (!confirm("¿Eliminar esta clienta? También se borrarán sus accesos y progreso.")) return;
+    await fetch(`/api/admin/clientas/${id}`, { method: "DELETE" });
+    setClientas((prev) => prev.filter((cl) => cl.id !== id));
+  };
+
   const generateCodes = async () => {
     if (!codeModal) return;
     setGenLoading(true); setNewCodes([]);
@@ -293,7 +299,7 @@ export default function AdminPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-[#e9e8e8]/50">
-                  <tr>{["Nombre", "Apellido", "Mail", "Teléfono", "Estado", "Registrada"].map((h) => (
+                  <tr>{["Nombre", "Apellido", "Mail", "Teléfono", "Estado", "Registrada", ""].map((h) => (
                     <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-[#bb7375]/70">{h}</th>
                   ))}</tr>
                 </thead>
@@ -311,6 +317,13 @@ export default function AdminPage() {
                       </td>
                       <td className="px-4 py-3 text-xs text-[#bb7375]/50">
                         {new Date(cl.creadaEn).toLocaleDateString("es-AR")}
+                      </td>
+                      <td className="px-4 py-3">
+                        <button onClick={() => deleteClienta(cl.id)}
+                          className="rounded-full p-1.5 text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors"
+                          title="Eliminar clienta">
+                          <Trash2Icon className="h-4 w-4" />
+                        </button>
                       </td>
                     </tr>
                   ))}

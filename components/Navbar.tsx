@@ -53,17 +53,11 @@ export function Navbar() {
               <div className="flex items-center gap-2">
                 <Link href={user.isAdmin ? "/admin" : "/mis-cursos"}>
                   <Button variant="ghost" className="h-auto rounded-full border border-[#bb7375] px-4 py-2 text-sm text-[#bb7375] hover:bg-[#bb7375]/10">
-                    <UserIcon className="mr-1 h-4 w-4" />
+                   <ShieldIcon className="h-4 w-4" />
                     {user.nombre}
                   </Button>
                 </Link>
-                {user.isAdmin && (
-                  <Link href="/admin">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-[#bb7375]">
-                      <ShieldIcon className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                )}
+               
                 <Button variant="ghost" size="icon" onClick={handleLogout} className="h-8 w-8 text-[#bb7375]" aria-label="Cerrar sesión">
                   <LogOutIcon className="h-4 w-4" />
                 </Button>

@@ -85,7 +85,12 @@ export default function AdminPage() {
 
   const deleteClienta = async (id: string) => {
     if (!confirm("¿Eliminar esta clienta? También se borrarán sus accesos y progreso.")) return;
-    await fetch(`/api/admin/clientas/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/admin/clientas/${id}`, { method: "DELETE" });
+    if (!res.ok) {
+      const data = await res.json();
+      alert(`Error al eliminar: ${data.error || "Desconocido"}`);
+      return;
+    }
     setClientas((prev) => prev.filter((cl) => cl.id !== id));
   };
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { clientas, insertClientaSchema } from "@shared/schema";
 import { signToken, clientaToPayload } from "@/lib/auth";
+import { sendEmail, buildBienvenidaHtml } from "@/lib/email";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 
@@ -20,6 +21,13 @@ export async function POST(req: NextRequest) {
 
   const hash = await bcrypt.hash(password, 10);
   const [clienta] = await db.insert(clientas).values({ nombre, apellido, mail, telefono, password: hash }).returning();
+
+  // Mail de bienvenida (fire-and-forget, no bloquea el registro)
+  sendEmail({
+    to: clienta.mail,
+    subject: "✨ Bienvenida a Keipana Accesorios Academy",
+    html: buildBienvenidaHtml({ nombre: clienta.nombre }),
+  }).catch((err) => console.error("Error al enviar bienvenida:", err));
 
   const token = await signToken(clientaToPayload(clienta));
   const res = NextResponse.json({ clienta: { id: clienta.id, nombre: clienta.nombre, mail: clienta.mail, isAdmin: clienta.isAdmin } });

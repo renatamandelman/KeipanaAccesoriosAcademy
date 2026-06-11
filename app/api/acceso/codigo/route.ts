@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { codigos, accesos, cursos } from "@shared/schema";
+import { codigos, accesos, cursos, clientas } from "@shared/schema";
 import { getSession } from "@/lib/auth";
+import { sendEmail, buildNuevoCursoHtml } from "@/lib/email";
 import { eq, and } from "drizzle-orm";
 
 export async function POST(req: NextRequest) {
@@ -33,6 +34,20 @@ export async function POST(req: NextRequest) {
     codigoId: code.id,
     fechaFin,
   }).returning();
+
+  // Mail de nuevo curso (fire-and-forget, no bloquea la activación)
+  const [clienta] = await db.select({ nombre: clientas.nombre }).from(clientas).where(eq(clientas.id, session.id)).limit(1);
+  if (clienta) {
+    sendEmail({
+      to: session.mail,
+      subject: `🎉 Acceso activado: ${curso.titulo}`,
+      html: buildNuevoCursoHtml({
+        nombre: clienta.nombre,
+        cursoTitulo: curso.titulo,
+        duracionDias: curso.duracionDias,
+      }),
+    }).catch((err) => console.error("Error al enviar notificación de nuevo curso:", err));
+  }
 
   return NextResponse.json({ acceso, curso });
 }

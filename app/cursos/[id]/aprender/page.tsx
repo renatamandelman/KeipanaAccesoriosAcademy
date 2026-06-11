@@ -149,7 +149,22 @@ export default function AprenderPage() {
                   >← Anterior</button>
                   <button
                     disabled={current === lecciones.length - 1}
-                    onClick={() => { toggleCompleted(leccion.id); setCurrent(current + 1); }}
+                    onClick={() => {
+                      // Siempre marca como completada al avanzar (no toggle)
+                      if (!completed.has(leccion.id)) {
+                        setCompleted((prev) => {
+                          const next = new Set(prev);
+                          next.add(leccion.id);
+                          return next;
+                        });
+                        fetch("/api/progreso", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ leccionId: leccion.id, completada: true }),
+                        }).catch(() => {});
+                      }
+                      setCurrent(current + 1);
+                    }}
                     className="rounded-full bg-[#bb7375] px-5 py-2 text-sm text-white disabled:opacity-30 hover:bg-[#bb7375/90]"
                     data-testid="btn-siguiente"
                   >Siguiente →</button>

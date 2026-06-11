@@ -33,6 +33,17 @@ export default function AprenderPage() {
       .then((d) => { if (d) { setLecciones(d); setLoading(false); } });
   }, [id, user, authLoading, router]);
 
+  // Registrar actividad al cargar la página de aprendizaje
+  useEffect(() => {
+    if (authLoading || !user) return;
+    // Disparar y olvidar — no bloquea la UI
+    fetch("/api/accesos/actividad", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cursoId: id }),
+    }).catch(() => {});
+  }, [id, user, authLoading]);
+
   const toggleCompleted = (lid: string) => {
     setCompleted((prev) => {
       const next = new Set(prev);

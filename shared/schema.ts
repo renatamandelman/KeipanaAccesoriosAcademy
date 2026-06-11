@@ -75,8 +75,18 @@ export const accesos = pgTable("accesos", {
   codigoId: varchar("codigo_id").references(() => codigos.id),
   fechaInicio: timestamp("fecha_inicio").defaultNow().notNull(),
   fechaFin: timestamp("fecha_fin").notNull(),
+  ultimoAcceso: timestamp("ultimo_acceso"),
 });
 
 export const insertAccesoSchema = createInsertSchema(accesos).omit({ id: true });
-export type InsertAcceso = z.infer<typeof insertAccesoSchema>;
 export type Acceso = typeof accesos.$inferSelect;
+
+// ─── Notificaciones Enviadas ─────────────────────────────────────────────────
+export const notificaciones = pgTable("notificaciones", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  accesoId: varchar("acceso_id").notNull().references(() => accesos.id, { onDelete: "cascade" }),
+  tipo: text("tipo").notNull(), // "inactividad-7d", "inactividad-15d", "inactividad-30d"
+  enviadoEn: timestamp("enviado_en").defaultNow().notNull(),
+});
+
+export type Notificacion = typeof notificaciones.$inferSelect;

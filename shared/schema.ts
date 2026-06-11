@@ -90,3 +90,17 @@ export const notificaciones = pgTable("notificaciones", {
 });
 
 export type Notificacion = typeof notificaciones.$inferSelect;
+
+// ─── Progreso de Lecciones ───────────────────────────────────────────────────
+export const progresoLecciones = pgTable("progreso_lecciones", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  clientaId: varchar("clienta_id").notNull().references(() => clientas.id, { onDelete: "cascade" }),
+  leccionId: varchar("leccion_id").notNull().references(() => lecciones.id, { onDelete: "cascade" }),
+  completada: boolean("completada").default(true).notNull(),
+  completadaEn: timestamp("completada_en").defaultNow().notNull(),
+}, (table) => ({
+  // Una clienta no puede tener dos registros de la misma lección
+  uniqClienteLeccion: { name: "uq_cliente_leccion", columns: [table.clientaId, table.leccionId] },
+}));
+
+export type ProgresoLeccion = typeof progresoLecciones.$inferSelect;

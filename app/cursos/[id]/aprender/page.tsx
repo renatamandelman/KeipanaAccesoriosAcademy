@@ -20,6 +20,7 @@ export default function AprenderPage() {
   const [loading, setLoading] = useState(true);
   const [forbidden, setForbidden] = useState(false);
 
+  // Cargar curso, lecciones y progreso guardado
   useEffect(() => {
     if (authLoading) return;
     if (!user) { router.push("/auth/login"); return; }
@@ -31,12 +32,19 @@ export default function AprenderPage() {
     fetch(`/api/cursos/${id}/lecciones`)
       .then((r) => { if (r.status === 403) { setForbidden(true); setLoading(false); return null; } return r.json(); })
       .then((d) => { if (d) { setLecciones(d); setLoading(false); } });
+
+    // Cargar progreso guardado desde la DB
+    fetch(`/api/progreso?cursoId=${id}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.completadas) setCompleted(new Set(data.completadas));
+      })
+      .catch(() => {});
   }, [id, user, authLoading, router]);
 
   // Registrar actividad al cargar la página de aprendizaje
   useEffect(() => {
     if (authLoading || !user) return;
-    // Disparar y olvidar — no bloquea la UI
     fetch("/api/accesos/actividad", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -44,12 +52,20 @@ export default function AprenderPage() {
     }).catch(() => {});
   }, [id, user, authLoading]);
 
+  // Toggle completada: optimista en UI + guarda en DB
   const toggleCompleted = (lid: string) => {
+    const nueva = !completed.has(lid);
     setCompleted((prev) => {
       const next = new Set(prev);
-      next.has(lid) ? next.delete(lid) : next.add(lid);
+      nueva ? next.add(lid) : next.delete(lid);
       return next;
     });
+    // Persistir en background (no bloquea la UI)
+    fetch("/api/progreso", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ leccionId: lid, completada: nueva }),
+    }).catch(() => {});
   };
 
   if (authLoading || loading) return (

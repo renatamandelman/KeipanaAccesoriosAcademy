@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { accesos, clientas, cursos, notificaciones } from "@shared/schema";
-import { eq, and, lt, sql, isNull, or } from "drizzle-orm";
+import { eq, and, lt, sql, gte } from "drizzle-orm";
 import { sendEmail, buildInactividadHtml } from "@/lib/email";
 
 /**
@@ -9,6 +9,9 @@ import { sendEmail, buildInactividadHtml } from "@/lib/email";
  *
  * Recorre los accesos activos y envía mails de alerta a quienes no accedieron
  * hace 7, 15 o 30+ días (sin repetir la misma notificación).
+ *
+ * La lógica usa COALESCE(ultimo_acceso, fecha_inicio) para determinar
+ * los días reales sin acceso desde la última actividad (o desde que empezó).
  *
  * Llamar desde un cron externo (cron-job.org, UptimeRobot, Vercel Cron).
  */
@@ -29,8 +32,11 @@ export async function GET() {
   const enviados: string[] = [];
 
   for (const umbral of UMBRALES) {
-    // Accesos activos que no accedieron hace {dias} días o más
-    // y que NO tengan ya una notificación de este tipo
+    // Buscar accesos activos cuyo último acceso (o fecha de inicio si nunca accedió)
+    // fue hace al menos {umbral.dias} días, y que NO tengan ya esa notificación.
+    //
+    // COALESCE(ultimo_acceso, fecha_inicio) resuelve el bug de NULL:
+    // si nunca accedió, usa fecha_inicio como referencia.
     const accesosVencidos = await db
       .select({
         acceso: accesos,
@@ -44,12 +50,9 @@ export async function GET() {
         and(
           // Acceso activo (no vencido)
           sql`${accesos.fechaFin} > NOW()`,
-          // Último acceso es NULL (nunca accedió) O fue hace más de N días
-          or(
-            isNull(accesos.ultimoAcceso),
-            lt(accesos.ultimoAcceso, sql`NOW() - INTERVAL '${sql.raw(String(umbral.dias))} days'`),
-          ),
-          // No se le envió ya esta notificación
+          // No accedió en los últimos N días (usando COALESCE para evitar NULL)
+          sql`COALESCE(${accesos.ultimoAcceso}, ${accesos.fechaInicio}) < NOW() - INTERVAL '${sql.raw(String(umbral.dias))} days'`,
+          // No se le envió ya esta notificación específica
           sql`NOT EXISTS (
             SELECT 1 FROM ${notificaciones}
             WHERE ${notificaciones.accesoId} = ${accesos.id}
@@ -61,11 +64,18 @@ export async function GET() {
     for (const row of accesosVencidos) {
       const { acceso, clienta: c, curso } = row;
 
-      const diasSinAcceso = acceso.ultimoAcceso
-        ? Math.floor((now.getTime() - new Date(acceso.ultimoAcceso).getTime()) / (1000 * 60 * 60 * 24))
-        : Math.floor((now.getTime() - new Date(acceso.fechaInicio).getTime()) / (1000 * 60 * 60 * 24));
+      // Calcular días reales desde el último acceso (o desde que empezó el curso)
+      const referencia = acceso.ultimoAcceso ?? acceso.fechaInicio;
+      const diasSinAcceso = Math.floor(
+        (now.getTime() - new Date(referencia).getTime()) / (1000 * 60 * 60 * 24),
+      );
 
-      const diasRestantes = Math.max(0, Math.ceil((new Date(acceso.fechaFin).getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+      const diasRestantes = Math.max(
+        0,
+        Math.ceil(
+          (new Date(acceso.fechaFin).getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+        ),
+      );
 
       try {
         await sendEmail({
